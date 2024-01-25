@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>API Test Page</title>
+</head>
+
+<body>
+    <h1>API Test Page</h1>
+
+    <script>
+        async function makeRequest(endpoint, method, data) {
+            const url = `http://localhost:8000${endpoint}`;
+            const response = await fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+                credentials: 'include',
+            });
+            const result = await response.json();
+            console.log(response.status, result);
+        }
+
+        // Login
+        const loginData = { "username": "user1", "password": "pw1" };
+        makeRequest("/login", "POST", loginData);
+
+        // Insert
+        const randHash = Array.from({ length: 32 }, () => Math.floor(Math.random() * 16).toString(16)).join('');
+        const insertData = { "hash": randHash, "categoryName": "Demo" };
+        makeRequest("/insert", "POST", insertData);
+
+        // Update
+        const updateData = { "hash": "hash1", "categoryName": "Song" };
+        makeRequest("/update", "POST", updateData);
+
+        // Select
+        const selectData1 = { "name": "m", "description": "and", "and": true };
+        makeRequest("/select", "POST", selectData1);
+
+        const selectData2 = { "name": "EDM", "description": "emotional", "and": false };
+        makeRequest("/select", "POST", selectData2);
+
+        // Projection
+        makeRequest("/projection", "GET");
+
+        const projectionData = { "table": "tags", "columns": ["name", "description"] };
+        makeRequest("/projection", "POST", projectionData);
+
+        // Join
+        const joinData = { "tagDescription": "and" };
+        makeRequest("/join", "POST", joinData);
+
+        // Aggregation Group
+        makeRequest("/aggregationGroup", "GET");
+
+        // Aggregation Having
+        makeRequest("/aggregationHaving", "GET");
+
+        // Aggregation Nested
+        makeRequest("/aggregationNested", "GET");
+
+        // Division
+        makeRequest("/division", "GET");
+
+        // Delete
+        // makeRequest("/delete", "POST");
+    </script>
+</body>
+
+</html>

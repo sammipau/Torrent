@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:latest
+    container_name: database
+    environment:
+      POSTGRES_USER: backend
+      POSTGRES_PASSWORD: backend
+      POSTGRES_DB: backend
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    command: ["postgres", "-c", "log_statement=all"]
+    networks:
+      - fullstack
+    healthcheck:
+      test: ["CMD", "pg_isready", "-q", "-d", "backend", "-U", "backend"]
+      interval: 1s
+      timeout: 5s
+      retries: 3
+
+  api:
+    build: .
+    container_name: api
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - fullstack
+    environment:
+      - DB_HOST=database
+
+networks:
+  fullstack:
+    driver: bridge

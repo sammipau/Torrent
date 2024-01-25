@@ -1,0 +1,36 @@
+.text {
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+}
+
+.user-text {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.torrent-text {
+    font-size: 18px;
+    margin-top: 25px;
+}
+
+.button-space-right {
+    margin-right: 6px;
+}
+
+.button-space-left {
+    margin-left: 6px;
+}
+
+.button-space-top {
+    margin-top: 25px;
+}
+
+.login-space-top {
+    margin-top: 5px;
+}
+
+.login-text {
+    margin-left: 20px;
+    margin-top: 20px;
+}
